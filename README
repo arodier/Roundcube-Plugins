@@ -1,0 +1,3 @@
+Some useful plugins for roundcube.
+
+- IdentiTeam: Create new users' identities and complex signatures, using informations in an LDAP server.
