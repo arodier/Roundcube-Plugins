@@ -1,0 +1,25 @@
+identiteam
+
+Automatically creates new users' identities on first login, using LDAP fields.
+
+Features:
+- Fully customizable HTML or text signatures.
+- Automatically detect signatures types (HTML or text) when created.
+- You can use custom signatures per domain.
+- You can use custom signatures per use.
+- Templates folder location is customisable, for instance '/etc/roundcube/templates'
+
+Bugs & Issues:
+- Send bug reports to andre.rodier@gmail.com
+
+Basic Installation:
+- Copy config-default.inc.php in config.inc.php, and modify the values you need.
+
+Templates customisation on a global level:
+- copy the 'default' folder into a folder representative of your company, for instance "SnakeOil"
+- Modify 'folderName' in the config, and use 'SnakeOil' instead of default.
+
+Templates customisation on per domain basis
+- Modify 'folderName' in the config, and use '%d' instead of default.
+- Create a folder for each domain name you hosts, and copy the file 'default.tmpl' into these folders
+- Custom each signature.
