@@ -15,9 +15,9 @@ clean:
 # Create a tgz package for each plugin
 packs:
 	@cd plugins
-	@git archive --format tar --prefix=identiteam/ HEAD:identiteam | gzip -9 >packs/identiteam.tgz 
+	@git archive --format tar --prefix=identiteam/ HEAD:plugins/identiteam | gzip -9 >packs/identiteam.tgz 
 
 # install packages in the currently defined plugins folder
-identiteam-dev: packs
-	@tar zxf packs/identiteam.tgz -C $(pluginsDir) 
+identiteam: packs
+	@tar zxvf packs/identiteam.tgz -C $(pluginsDir) 
 
