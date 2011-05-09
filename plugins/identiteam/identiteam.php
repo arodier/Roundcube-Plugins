@@ -37,7 +37,7 @@ class identiteam extends rcube_plugin
         $this->domain = $this->ldap['domain'];
 
         # Get these fields
-        $this->fields = split(",",$this->ldap['fields']);
+        $this->fields = explode(',',$this->ldap['fields']);
         array_push($this->fields, $this->ldap['extraEmailField']);
 
         $this->conn = ldap_connect($this->server);
@@ -127,7 +127,7 @@ class identiteam extends rcube_plugin
 
                     if ( $folderName == '%d' || $fileName == '%u' )
                     {
-                        list($user,$domain) = split('@', $email);
+                        list($user,$domain) = explode('@', $email);
 
                         if ( $folderName == '%d' ) $folderName = $domain ;
                         if ( $fileName == '%u' ) $fileName = $user ;
