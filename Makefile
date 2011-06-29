@@ -13,7 +13,7 @@ clean:
 	@rm -f packs/*tgz
 
 # Create a tgz package for each plugin
-packs:
+packs: clean
 	@cd plugins
 	@git archive --format tar --prefix=identiteam/ HEAD:plugins/identiteam | gzip -9 >packs/identiteam.tgz 
 
