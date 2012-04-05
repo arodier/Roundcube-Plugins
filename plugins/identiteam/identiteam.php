@@ -31,14 +31,14 @@ class identiteam extends rcube_plugin
         {
             write_log('identiteam', 'Initialising');
             
-            // Load default config, and merge with users' settings
+            # Load default config, and merge with users' settings
             $this->load_config('config-default.inc.php');
             $this->load_config('config.inc.php');
 
             $this->app = rcmail::get_instance();
             $this->config = $this->app->config->get('identiteam');
 
-            // Load LDAP & mail config at once
+            # Load LDAP & mail config at once
             $this->ldap = $this->config['ldap'];
             $this->mail = $this->config['mail'];
 
@@ -46,7 +46,7 @@ class identiteam extends rcube_plugin
             $this->filter = $this->ldap['filter'];
             $this->domain = $this->ldap['domain'];
 
-            // Get these fields
+            # Get these fields
             $this->fields = explode(',',$this->ldap['fields']);
             array_push($this->fields, $this->ldap['extraEmailField']);
 
@@ -88,22 +88,46 @@ class identiteam extends rcube_plugin
             write_log('identiteam', 'Initialised');
     }
 
+    /**
+     * user2email
+     * 
+     * See http://trac.roundcube.net/wiki/Plugin_Hooks
+     * Return values:
+     * email: E-mail address (or array of arrays with keys: email, name, organization, reply-to, bcc, signature, html_signature) 
+     */
     function user2email($args)
     {
+        $login = $args['user'];          # User login
+        $first = $args['first'];         # True if one entry is expected
+        $extended = $args['extended'];   # True if array result (email and identity data) is expected
+        $email = $args['email'];
+
+        # ensure we return valid information
+        $args['extended'] = true;
+        $args['first'] = false;
+        $args['abort'] = false;
+
         try
         {
-            // load ldap & mail confg
+            # load ldap & mail confg
             $ldap = $this->ldap;
             $mail = $this->mail;
 
-            // Open the connection and start to search
-            $login = $args['user'];
+            # if set to true, the domain name is removed before the lookup 
+            $filter_remove_domain = $this->config['ldap']['filter_remove_domain'];
 
-            // check if we need to add a domain if not specified in the login name
-            if ( !strstr($login, '@') && $mail['domain'] )
+            if ( $filter_remove_domain )
+            {            
+                $login = array_shift(explode('@', $login));
+            }
+            else
             {
-                $domain = $mail['domain'];
-                $login = "$login@$domain" ;
+                # check if we need to add a domain if not specified in the login name
+                if ( !strstr($login, '@') && $mail['domain'] )
+                {
+                    $domain = $mail['domain'];
+                    $login = "$login@$domain" ;
+                }
             }
 
             $filter = sprintf($ldap['filter'], $login);
@@ -116,6 +140,9 @@ class identiteam extends rcube_plugin
 
                 if ( $info['count'] == 1 )
                 {
+                    $log = sprintf("Found the user '%s' in the database", $login);
+                    write_log('identiteam', $log);
+
                     $userInfo = $info[0];
                     $identities = array();
                     $emails = array($userInfo["mail"][0]);
@@ -143,7 +170,10 @@ class identiteam extends rcube_plugin
                         }
                         $dict['[mail]']   = $email;
 
-                        // prepare the arrays to replace into the signature template
+                        $log = sprintf("Found the email '%s'", $email);
+                        write_log('identiteam', $log);
+
+                        # prepare the arrays to replace into the signature template
                         $keys = array_keys($dict);
                         $vals = array_values($dict);
 
@@ -177,26 +207,35 @@ class identiteam extends rcube_plugin
                             $signPath = "plugins/identiteam/templates/default/default.tmpl";
                         }
 
-                        // Create signature
+                        # Create signature
                         if ( file_exists($signPath) )
                         {
+                            $log = sprintf("Creating signature with template: (path=%s).", $signPath);
+                            write_log('identiteam', $log);
+
                             $sign = file_get_contents($signPath);
                             $sign = str_replace($keys,$vals,$sign);
 
-                            // remove empty fields from the signature
+                            # remove empty fields from the signature
                             $repl = $tmplConfig['emptyValues'];
                             $sign = preg_replace('/\[[a-zA-Z]+\]/', $repl, $sign);
 
-                            // If the signature start with an HTNL tag,
-                            // it is automatically considered as an HTML signature.
+                            # If the signature start with an HTNL tag,
+                            # it is automatically considered as an HTML signature.
                             $isHtml = 0;
                             if ( preg_match('/^\s*<[a-zA-Z]+/', $sign) )
                                 $isHtml = 1;
 
+                            $organisation = $userInfo['o'][0];
+                            $name = $userInfo['cn'][0];
+
+                            if ( !$organisation ) $organisation = '';
+                            if ( !$name ) $name = '';
+
                             $identities[] = array(
                                 'email' => $email,
-                                'name' => $userInfo['cn'][0],
-                                'organization' => $userInfo['o'][0],
+                                'name' => $name,
+                                'organization' => $organisation,
                                 'reply-to' => '',
                                 'signature' => $sign,
                                 'html_signature' => $isHtml
@@ -223,9 +262,9 @@ class identiteam extends rcube_plugin
                 write_log('identiteam', $log);
             }
 
-            // We may close the connection before,
-            // unless closing connection freed ressources
-            // we use...
+            # We may close the connection before,
+            # unless closing connection freed ressources
+            # we use...
             ldap_close($this->conn);
         }
         catch ( Exception $exc )
