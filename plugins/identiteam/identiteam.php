@@ -130,6 +130,18 @@ class identiteam extends rcube_plugin
                 }
             }
 
+            # Check if dovecot master user is used. Use the same configuration name than
+            # dovecot_impersonate plugin for roundcube
+            $separator = $this->config['mail']['dovecot_impersonate_seperator'];
+
+            if ( strpos($login,$separator) !== false )
+            {   
+                $log = sprintf("Removed dovecot impersonate separator (%s) in the login name", $separator);
+                write_log('identiteam', $log);
+
+                $login = array_shift(explode($separator, $login));
+            }   
+
             $filter = sprintf($ldap['filter'], $login);
             $result = ldap_search($this->conn, $this->domain, $filter, $this->fields);
 

@@ -12,6 +12,9 @@ array(
         'domain' => 'example.com'                           // Id necessary, you can specify a domain to add after the login name to search
                                                             // inside the ldap database. This is useful if you want to search based on email address
                                                             // rather than the simple uid.
+
+        'dovecot_impersonate_seperator' => '*'              // If using dovecot master users, remove the admin name before the lookup
+
     ),
 
     // LDAP parameters
