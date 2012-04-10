@@ -1,0 +1,21 @@
+
+/* Section headers for the orms */
+td.section-first
+{
+    font-size:larger;
+    font-weight:bold;
+    padding-bottom:4pt;
+}
+
+td.section
+{
+    font-size:larger;
+    font-weight:bold;
+    padding-top:10pt;
+    padding-bottom:4pt;
+}
+
+td.top
+{
+    vertical-align:top;
+}
