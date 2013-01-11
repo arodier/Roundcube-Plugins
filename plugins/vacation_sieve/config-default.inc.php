@@ -21,9 +21,9 @@ $rcmail_config['vacation_sieve'] = array(
         # Only local and SSH supported atm
 
         # Select mode
-        # 'mode' =>  'local',
+        'mode' =>  'local',
         # 'mode' =>  'sieve',
-        'mode'   => 'ssh',
+        # 'mode'   => 'ssh',
 
         # Only used in SSH Mode
         'host'   => 'localhost',
