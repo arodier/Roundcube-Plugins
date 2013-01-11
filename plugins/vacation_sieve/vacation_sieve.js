@@ -37,6 +37,7 @@ if (window.rcmail)
             defaultDate: "+1w",
             changeMonth: true,
             numberOfMonths: 1,
+            dateFormat: rcmail.env.date_format,
             onSelect: function( selectedDate ) {
                 var option = this.id == "vacation_start" ? "minDate" : "maxDate",
                     instance = $( this ).data( "datepicker" ),

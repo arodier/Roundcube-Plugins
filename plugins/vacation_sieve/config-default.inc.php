@@ -11,9 +11,6 @@
 
 $rcmail_config['vacation_sieve'] = array(
 
-    # Date formats for the calendars
-    'date_format' => 'd/m/Y',
-
     # Message format: text or html
     # 'html' is not implemented yet.
     'msg_format' => 'text',
