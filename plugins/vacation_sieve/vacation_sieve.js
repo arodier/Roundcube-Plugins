@@ -13,7 +13,7 @@ if (window.rcmail)
 		var tab = $('<span>').attr('id', 'settingstabpluginvacation_sieve').addClass('tablink');
 		var button = $('<a>').attr('href',
 				rcmail.env.comm_path + '&_action=plugin.vacation_sieve').html(
-				rcmail.gettext('vacation', 'vacation')).appendTo(tab);
+				rcmail.gettext('vacation', 'vacation_sieve')).appendTo(tab);
 		button.bind('click', function(e) {
 			return rcmail.command('plugin.vacation_sieve', this);
 		});
