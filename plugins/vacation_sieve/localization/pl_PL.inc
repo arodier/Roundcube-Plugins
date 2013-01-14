@@ -3,11 +3,11 @@
 $labels = array();
 $labels['vacation'] = 'Autoodpowiedź';
 $labels['vacationenable'] = 'Włączona';
-$labels['vacationsubject'] = 'Temat:';
-$labels['vacationmessage'] = 'Treść:';
-$labels['vacationforwarder'] = 'Forward address:';
-$labels['vacationstart'] = 'Od kiedy:';
-$labels['vacationend'] = 'Do kiedy:';
+$labels['vacationsubject'] = 'Temat';
+$labels['vacationmessage'] = 'Treść';
+$labels['vacationforwarder'] = 'Forward address';
+$labels['vacationstart'] = 'Od kiedy';
+$labels['vacationend'] = 'Do kiedy';
 
 $messages = array();
 $messages['vacationinvalidstartdate'] = 'Proszę wybrać prawidłową datę początkową.';

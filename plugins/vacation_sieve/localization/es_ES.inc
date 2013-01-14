@@ -2,11 +2,11 @@
 
 $labels['vacation'] = 'Vacaciones';
 $labels['vacationenable'] = 'Activo';
-$labels['vacationsubject'] = 'Asunto:';
-$labels['vacationmessage'] = 'Mensaje:';
-$labels['vacationforwarder'] = 'Dirección de respuesta:';
-$labels['vacationstart'] = 'Fecha Inicio:';
-$labels['vacationend'] = 'Fecha Fin:';
+$labels['vacationsubject'] = 'Asunto';
+$labels['vacationmessage'] = 'Mensaje';
+$labels['vacationforwarder'] = 'Dirección de respuesta';
+$labels['vacationstart'] = 'Fecha Inicio';
+$labels['vacationend'] = 'Fecha Fin';
 
 $messages = array();
 $messages['vacationinvalidstartdate'] = 'Por favor, seleccione una fecha de inicio valida.';

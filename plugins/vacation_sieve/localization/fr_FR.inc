@@ -3,11 +3,11 @@
 $labels = array();
 $labels['vacation'] = 'Répondeur';
 $labels['vacationenable'] = 'Activer';
-$labels['vacationsubject'] = 'Sujet :';
-$labels['vacationmessage'] = 'Message :';
-$labels['vacationforwarder'] = 'Adresse de redirection :';
-$labels['vacationstart'] = 'Début :';
-$labels['vacationend'] = 'Fin :';
+$labels['vacationsubject'] = 'Sujet ';
+$labels['vacationmessage'] = 'Message ';
+$labels['vacationforwarder'] = 'Adresse de redirection ';
+$labels['vacationstart'] = 'Début ';
+$labels['vacationend'] = 'Fin ';
 
 $messages = array();
 $messages['vacationinvalidstartdate'] = 'Veuillez saisir une date de début valide.';

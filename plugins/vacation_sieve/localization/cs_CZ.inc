@@ -3,11 +3,11 @@
 $labels = array();
 $labels['vacation'] = 'Dovolená';
 $labels['vacationenable'] = 'Zapnuto';
-$labels['vacationsubject'] = 'Předmět:';
-$labels['vacationmessage'] = 'Zpráva:';
-$labels['vacationforwarder'] = 'Přesměrovat na:';
-$labels['vacationstart'] = 'Začátek:';
-$labels['vacationend'] = 'Konec:';
+$labels['vacationsubject'] = 'Předmět';
+$labels['vacationmessage'] = 'Zpráva';
+$labels['vacationforwarder'] = 'Přesměrovat na';
+$labels['vacationstart'] = 'Začátek';
+$labels['vacationend'] = 'Konec';
 
 $messages = array();
 $messages['vacationinvalidstartdate'] = 'Zvolte prosím datum začátku.';

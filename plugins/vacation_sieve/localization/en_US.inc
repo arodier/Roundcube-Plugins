@@ -3,11 +3,11 @@
 $labels = array();
 $labels['vacation'] = 'Vacation';
 $labels['vacationenable'] = 'Enable';
-$labels['vacationsubject'] = 'Subject:';
-$labels['vacationmessage'] = 'Message:';
-$labels['vacationforwarder'] = 'Forward address:';
-$labels['vacationstart'] = 'Start:';
-$labels['vacationend'] = 'End:';
+$labels['vacationsubject'] = 'Subject';
+$labels['vacationmessage'] = 'Message';
+$labels['vacationforwarder'] = 'Forward address';
+$labels['vacationstart'] = 'Start';
+$labels['vacationend'] = 'End';
 
 $messages = array();
 $messages['vacationinvalidstartdate'] = 'Please select a valid start date.';
@@ -20,3 +20,5 @@ $messages['vacationinvalidforwarders'] = 'The forward addresses list is not vali
 $messages['vacationdriverdefaulterror'] = 'Unknown execution error';
 $messages['vacationdriverconnecterror'] = 'Error during connection';
 $messages['vacationdriverprocesserror'] = 'Error during processing';
+
+?>

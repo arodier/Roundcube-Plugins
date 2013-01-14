@@ -3,11 +3,11 @@
 $labels = array();
 $labels['vacation'] = 'Szabadság';
 $labels['vacationenable'] = 'Engedélyezés';
-$labels['vacationsubject'] = 'Tárgy:';
-$labels['vacationmessage'] = 'Üzenet:';
-$labels['vacationforwarder'] = 'Továbbítás:';
-$labels['vacationstart'] = 'Kezdete:';
-$labels['vacationend'] = 'Vége:';
+$labels['vacationsubject'] = 'Tárgy';
+$labels['vacationmessage'] = 'Üzenet';
+$labels['vacationforwarder'] = 'Továbbítás';
+$labels['vacationstart'] = 'Kezdete';
+$labels['vacationend'] = 'Vége';
 $labels['vacationkeepcopyininbox'] = 'Másolat megtartása';
 
 $messages = array();
