@@ -193,9 +193,9 @@ class vacation_sieve extends rcube_plugin
             $table->add_row();
             $identities = $this->get_identities();
             $field_id = 'addressed_to';
-            $input_addressed_to = new html_select(array('name' => '_addressed_to[]', 'multiple' => 'multiple', 'id' => 'identities'));
+            $input_addressed_to = new html_select(array('name' => '_addressed_to[]'));
             $input_addressed_to->add($identities);
-            $table->add('top title', html::label($field_id, Q($this->gettext('addressed_to'))));
+            $table->add('title', html::label($field_id, Q($this->gettext('addressed_to'))));
             $table->add(null, $input_addressed_to->show());
 
             # Subject field
