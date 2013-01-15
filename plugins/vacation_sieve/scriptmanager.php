@@ -23,6 +23,7 @@ class ScriptManager
 
         # Include initial params in the script (disabled)
         # $execBlock .= sprintf("## Initial params: ##\n##PARAMS:[%s]\n\n", base64_encode(serialize($params)));
+        $execBlock .= sprintf("## Initial params: ##\n##STARTPARAMS%sENDPARAMS\n\n", json_encode($params));
 
         # Add require blocks
         if ( $params['appendSubject'] ) $this->requires[] = '"variables"';
@@ -87,6 +88,8 @@ class ScriptManager
 
     public function LoadParamsFromScript($script)
     {
+        $params = json_decode($script, true);
+        return $params;
     }
 
 
