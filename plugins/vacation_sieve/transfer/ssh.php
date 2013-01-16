@@ -17,6 +17,7 @@ class SSHTransfer extends SieveTransfer
 
         $user = $this->params['user'];
         $host = $this->params['host'];
+        $sievecbin = $this->params['sievecbin'];
 
         if ( !$user ) $user = 'vmail';
         if ( !$host ) $host = 'localhost';
@@ -26,7 +27,7 @@ class SSHTransfer extends SieveTransfer
         system($command);
 
         # Compile the file
-        $command = sprintf("ssh %s@%s '/usr/bin/sievec \"%s\"'", $user, $host, $path);
+        $command = sprintf("ssh %s@%s '%s \"%s\"'", $user, $host, $sievecbin, $path);
         system($command);
         #print("$command");
         #exit;

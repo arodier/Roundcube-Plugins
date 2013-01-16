@@ -44,7 +44,7 @@ class LocalTransfer extends SieveTransfer
         
         # Compile the script
         if ( $success )
-            $success = (system("/usr/bin/sievec $path") == 0);
+            $success = (system("$this->params['sievecbin'] $path") == 0);
 
         return $success;
     }

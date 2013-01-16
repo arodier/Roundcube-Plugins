@@ -40,6 +40,9 @@ $rcmail_config['vacation_sieve'] = array(
         #'path' => '/var/vmail/<domain>/<logon>/.sieve',
         #'path' => '/tmp/<logon>.sieve',
         'path' => 'vacation',
+
+        # Path to sievec bin
+        'sievecbin' => '/usr/bin/sievec',
     )
 );
 
