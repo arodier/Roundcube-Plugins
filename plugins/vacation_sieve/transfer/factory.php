@@ -16,6 +16,10 @@ function GetTransferClass($mode, $params)
     {
         $transfer = new LocalTransfer();
     }
+    elseif ( $mode == 'managesieve' )
+    {
+        $transfer = new ManagesieveTransfer();
+    }
 
     $transfer->SetParams($params);
 

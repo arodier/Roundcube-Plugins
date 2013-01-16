@@ -17,20 +17,29 @@ $rcmail_config['vacation_sieve'] = array(
 
     # Transfer parameters
     'transfer' => array(
-        # Transfer mode: local, ssh, sieve, etc...
-        # Only local and SSH supported atm
+        # Transfer mode: local, ssh, managesieve, etc...
 
         # Select mode
-        'mode' =>  'local',
-        # 'mode' =>  'sieve',
+        # 'mode' =>  'local',
+        'mode' =>  'managesieve',
         # 'mode'   => 'ssh',
 
-        # Only used in SSH Mode
+        # Used in SSH and Managesieve Mode
         'host'   => 'localhost',
+        # SSH
+        # 'port'   => '22',
+        # Managesieve
+        'port'   => '4190',
+        # Only used in SSH Mode
         'user'   => 'vmail',
+        # Only used in Managesieve Mode
+        'usetls' => false,
 
         # example of a template path to save/load the local file
-        'path' => '/var/vmail/<domain>/<logon>/Maildir/.sieve',
+        # in the case of managesieve, this is the script name
+        #'path' => '/var/vmail/<domain>/<logon>/.sieve',
+        #'path' => '/tmp/<logon>.sieve',
+        'path' => 'vacation',
     )
 );
 
