@@ -8,6 +8,15 @@ $labels['vacationmessage'] = 'Message';
 $labels['vacationforwarder'] = 'Forward address';
 $labels['vacationstart'] = 'Start';
 $labels['vacationend'] = 'End';
+$labels['period'] = 'Period';
+$labels['frequency'] = 'Frequency';
+$labels['addressed_to'] = 'Addressed to';
+$labels['append_subject'] = 'Append subject';
+$labels['send_from'] = 'Send from';
+$labels['vacationfrom'] = 'From';
+$labels['vacationto'] = 'To';
+$labels['answer_no_more_than_every'] = 'Answer no more than every';
+$labels['vacationdays'] = 'days';
 
 $messages = array();
 $messages['vacationinvalidstartdate'] = 'Please select a valid start date.';

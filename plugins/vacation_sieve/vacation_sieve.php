@@ -244,14 +244,14 @@ class vacation_sieve extends rcube_plugin
             $input_vacationend = new html_inputfield(array('name' => '_vacation_end', 'id' => $field_id, 'size' => 10));
             $vacEnd = $this->obj->get_vacation_end();
 
-            $periodFields = 'From '.$input_vacationstart->show(date($format, $vacStart)) . ' To ' . $input_vacationend->show(date($format, $vacEnd));
+            $periodFields = $this->gettext('vacationfrom') . ' ' .$input_vacationstart->show(date($format, $vacStart)) . ' ' . $this->gettext('vacationto') . ' ' . $input_vacationend->show(date($format, $vacEnd));
             $table->add(null, $periodFields);
 
             $table->add_row();
             $field_id = 'every';
             $input_every = new html_inputfield(array('name' => '_every', 'id' => $field_id, 'size' => 5));
             $table->add('title', html::label($field_id, Q($this->gettext('frequency'))));
-            $table->add(null, 'Answer no more than every ' . $input_every->show($this->obj->get_every()) . ' days');
+            $table->add(null, $this->gettext('answer_no_more_than_every') . ' ' . $input_every->show($this->obj->get_every()) . ' ' . $this->gettext('vacationdays'));
             
             $table->add_row();
             $identities = $this->get_identities();
