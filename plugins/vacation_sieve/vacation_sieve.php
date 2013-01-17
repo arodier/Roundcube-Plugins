@@ -83,6 +83,7 @@ class vacation_sieve extends rcube_plugin
      */
     public function read_data()
     {
+        write_log('vacation_sieve', 'Read data');
         # Open the config file, and save the script
         $transferParams = $this->config['transfer'];
         $path = $transferParams['path'];
@@ -157,6 +158,7 @@ class vacation_sieve extends rcube_plugin
      */
     public function write_data()
     {
+        write_log('vacation_sieve', 'Write data');
         $params = array();
         $params['enable'] = get_input_value('_vacation_enable', RCUBE_INPUT_POST, true);
         $params['start'] = get_input_value('_vacation_start', RCUBE_INPUT_POST);
@@ -183,6 +185,22 @@ class vacation_sieve extends rcube_plugin
         $path = str_replace('<domain>', $domain, $path);
         $path = str_replace('<logon>', $logon, $path);
         $transferParams['path'] = $path;
+
+        # Update the model
+        $format = $this->app->config->get('date_format');  
+        $this->obj->set_vacation_enable($params['enable']);
+        $startdate = date_create_from_format($format, $params['start']);
+        if($startdate) { $this->obj->set_vacation_start(date_timestamp_get($startdate)); }
+        $enddate = date_create_from_format($format, $params['end']);
+        if($enddate) { $this->obj->set_vacation_end(date_timestamp_get($enddate)); }
+        $this->obj->set_every($params['every']);
+
+        $this->obj->set_vacation_subject($params['subject']);
+        $this->obj->set_append_subject($params['appendSubject']);
+
+        #$this->obj->set_addressed_to($params['addresses']);
+        #$this->obj->set_send_from($params['sendFrom']);
+        $this->obj->set_vacation_message($params['message']);
 
         # load the transfer class 
         require 'transfer/factory.php';
