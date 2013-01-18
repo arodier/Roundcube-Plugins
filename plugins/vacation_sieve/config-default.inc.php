@@ -15,6 +15,9 @@ $rcmail_config['vacation_sieve'] = array(
     # 'html' is not implemented yet.
     'msg_format' => 'text',
 
+    # Debug logging: enable for process logging
+    'debug' => false,
+
     # Transfer parameters
     'transfer' => array(
         # Transfer mode: local, ssh, managesieve, etc...

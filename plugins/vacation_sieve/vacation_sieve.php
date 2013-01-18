@@ -28,7 +28,7 @@ class vacation_sieve extends rcube_plugin
     {
         try
         {
-            write_log('vacation_sieve', 'Initialising');
+            $this->log_debug('Initialising');
 
             $this->app = rcmail::get_instance();
             $this->add_texts('localization/', true);
@@ -50,11 +50,11 @@ class vacation_sieve extends rcube_plugin
             
             $this->obj = new model();
 
-            write_log('vacation_sieve', 'Initialised');
+            $this->log_debug('Initialised');
         }
         catch ( Exception $exc )
         {
-            write_log('vacation_sieve', 'Fail to initialise: '.$exc->getMessage());
+            $this->log_error('Fail to initialise: '.$exc->getMessage());
         }
     }
 
@@ -65,7 +65,7 @@ class vacation_sieve extends rcube_plugin
     {
         try
         {
-            write_log('vacation_sieve', 'Loading data');
+            $this->log_debug('Loading data');
             $this->read_data();
 
             $this->register_handler('plugin.body', array($this, 'vacation_sieve_form'));
@@ -74,7 +74,7 @@ class vacation_sieve extends rcube_plugin
         }
         catch (Exception $exc)
         {
-            write_log('vacation_sieve', 'Fail to Loaded: '.$exc->getMessage());
+            $this->log_error('Fail to Loaded: '.$exc->getMessage());
         }
     }
 
@@ -83,7 +83,7 @@ class vacation_sieve extends rcube_plugin
      */
     public function read_data()
     {
-        write_log('vacation_sieve', 'Read data');
+        $this->log_debug('Read data');
         # Open the config file, and save the script
         $transferParams = $this->config['transfer'];
         $path = $transferParams['path'];
@@ -104,7 +104,7 @@ class vacation_sieve extends rcube_plugin
         if ( !$script && $script != "" )
         {
             $msg = sprintf("Cannot load the script from '%s'", $path);
-            write_log('vacation_sieve', $msg);
+            $this->log_error($msg);
         }
         else {
             require 'scriptmanager.php';
@@ -139,7 +139,7 @@ class vacation_sieve extends rcube_plugin
     {
         try
         {
-            write_log('vacation_sieve', 'Saving data');
+            $this->log_debug('Saving data');
             $this->write_data();
 
             $this->register_handler('plugin.body', array($this, 'vacation_sieve_form'));
@@ -149,7 +149,7 @@ class vacation_sieve extends rcube_plugin
         }
         catch ( Exception $exc)
         {
-            write_log('vacation_sieve', 'Fail to save: '.$exc->getMessage());
+            $this->log_error('Fail to save: '.$exc->getMessage());
         }
     }
 
@@ -158,7 +158,7 @@ class vacation_sieve extends rcube_plugin
      */
     public function write_data()
     {
-        write_log('vacation_sieve', 'Write data');
+        $this->log_debug('Write data');
         $params = array();
         $params['enable'] = get_input_value('_vacation_enable', RCUBE_INPUT_POST, true);
         $params['start'] = get_input_value('_vacation_start', RCUBE_INPUT_POST);
@@ -212,7 +212,7 @@ class vacation_sieve extends rcube_plugin
         if ( !$success )
         {
             $msg = sprintf("Cannot save the script in '%s'", $path);
-            write_log('vacation_sieve', $msg);
+            $this->log_error($msg);
         }
     }
 
@@ -330,7 +330,7 @@ class vacation_sieve extends rcube_plugin
         }
         catch(Exception $exc)
         {
-            write_log('vacation_sieve', 'Fail to build form: '.$exc->getMessage());
+            $this->log_error('Fail to build form: '.$exc->getMessage());
         }
     }
 
@@ -348,6 +348,19 @@ class vacation_sieve extends rcube_plugin
         }
 
         return $select;
+    }
+
+    private function log_debug($msg)
+    {
+        if ($this->config['debug'])
+        {
+            write_log('vacation_sieve', $msg);
+        }
+    }
+
+    private function log_error($msg)
+    {
+        write_log('vacation_sieve', $msg);
     }
 
 }
