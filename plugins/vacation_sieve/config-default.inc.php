@@ -38,6 +38,11 @@ $rcmail_config['vacation_sieve'] = array(
         # Only used in Managesieve Mode
         'usetls' => false,
 
+        # Only used in Managesieve Mode
+        # if true, 'activate' the script via the managesieve protocol
+        # if false, only write the script (eg if 'included')
+        'ms_activate_script' => true,
+
         # example of a template path to save/load the local file
         # in the case of managesieve, this is the script name
         #'path' => '/var/vmail/<domain>/<logon>/.sieve',

@@ -185,6 +185,7 @@ class vacation_sieve extends rcube_plugin
         $path = str_replace('<domain>', $domain, $path);
         $path = str_replace('<logon>', $logon, $path);
         $transferParams['path'] = $path;
+        $transferParams['enable'] = $params['enable'];
 
         # Update the model
         $format = $this->app->config->get('date_format');  

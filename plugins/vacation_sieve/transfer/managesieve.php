@@ -53,13 +53,24 @@ class ManagesieveTransfer extends SieveTransfer
     public function SaveScript($script_name,$script)
     {
         $success = false;
+        $success_save = false;
+        $success_activate = false;
 
         if (!$this->managesieve) {
             $this->GetManagesieve();
         }
 
         if ($script_name) {
-            $success = $this->managesieve->save_script($script_name,$script);
+            $success_save = $this->managesieve->save_script($script_name,$script);
+            if($this->params['enable'] && $this->params['ms_activate_script'])
+            {
+                $success_activate = $this->managesieve->activate($script_name);
+                if($success_save && $success_activate){ $success = true; }
+            }
+            else
+            {
+                if($success_save){ $success = true; }
+            }
         }
 
         return $success;
