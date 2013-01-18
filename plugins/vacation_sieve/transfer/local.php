@@ -31,7 +31,7 @@ class LocalTransfer extends SieveTransfer
             $msg = sprintf('Cannot create folder "%s" to save the script.', $folder);
             throw new Exception($msg);
         }
-        
+
         # Copy the script
         $bytes = @file_put_contents($path,$script);
         $success = ($bytes != false);
@@ -41,7 +41,7 @@ class LocalTransfer extends SieveTransfer
             $msg = sprintf('Cannot write file "%s" to save the script.', $path);
             throw new Exception($msg);
         }
-        
+
         # Compile the script
         if ( $success )
             $success = (system("$this->params['sievecbin'] $path") == 0);

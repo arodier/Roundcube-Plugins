@@ -29,8 +29,6 @@ class SSHTransfer extends SieveTransfer
         # Compile the file
         $command = sprintf("ssh %s@%s '%s \"%s\"'", $user, $host, $sievecbin, $path);
         system($command);
-        #print("$command");
-        #exit;
 
         # Clean up
         unlink($tmpFile);
