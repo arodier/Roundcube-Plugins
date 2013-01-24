@@ -34,7 +34,7 @@ if (window.rcmail)
     // Datepicker for the vacation dates
     $(function() {
         var dates = $('#vacation_start, #vacation_end').datepicker({
-            defaultDate: "+1w",
+            defaultDate: 7,
             changeMonth: true,
             numberOfMonths: 1,
             dateFormat: rcmail.env.date_format,
@@ -42,8 +42,7 @@ if (window.rcmail)
                 var option = this.id == "vacation_start" ? "minDate" : "maxDate",
                     instance = $( this ).data( "datepicker" ),
                     date = $.datepicker.parseDate(
-                        instance.settings.dateFormat ||
-                        $.datepicker._defaults.dateFormat,
+                        instance.settings.dateFormat,
                         selectedDate, instance.settings );
                 dates.not( this ).datepicker( "option", option, date );
             }

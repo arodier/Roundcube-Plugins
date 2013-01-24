@@ -17,7 +17,9 @@ class model
 	public $email_domain =  '';
 	public $vacation_enable = false;
 	public $vacation_start = 0;
+	public $vacation_starttime = 12;
 	public $vacation_end = 0;
+	public $vacation_endtime = 12;
 	public $append_subject = true;
 	public $vacation_subject = 'Out of office';
 	public $vacation_message = 'I am in Hollidays...';
@@ -111,6 +113,16 @@ class model
 	}
 
 	/*
+	 * Gets the vacation start time.
+	 *
+	 * @returng int Time in 24h format.
+	 */
+	public function get_vacation_starttime()
+	{
+		return $this->vacation_starttime;
+	}
+
+	/*
 	 * Gets the vacation end date.
 	 *
 	 * @returng int the timestamp of the end date.
@@ -121,6 +133,16 @@ class model
             $this->vacation_end = 86400 + time();
 
 		return $this->vacation_end;
+	}
+
+	/*
+	 * Gets the vacation end time.
+	 *
+	 * @returng int Time in 24h format.
+	 */
+	public function get_vacation_endtime()
+	{
+		return $this->vacation_endtime;
 	}
 	
 	/*
@@ -224,6 +246,16 @@ class model
 	}
 
 	/*
+	 * Sets the vacation start time.
+	 *
+	 * @param int The time in 24h format.
+	 */
+	public function set_vacation_starttime ($time)
+	{
+		$this->vacation_starttime = $time;
+	}
+
+	/*
 	 * Sets the vacation end date.
 	 *
 	 * @param int the timestamp of the vacation end date.
@@ -233,6 +265,16 @@ class model
 		$this->vacation_end = $date;
 	}
 	
+	/*
+	 * Sets the vacation end time.
+	 *
+	 * @param int The time in 24h format.
+	 */
+	public function set_vacation_endtime ($time)
+	{
+		$this->vacation_endtime = $time;
+	}
+
 	/*
 	 * Sets the vacation subject.
 	 *
