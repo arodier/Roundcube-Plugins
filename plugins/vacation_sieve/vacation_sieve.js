@@ -28,13 +28,20 @@ if (window.rcmail)
 
     // Adjust the eight of the identities list
     $(function () {
-        $("select#identities").css("height", 1.25 * parseInt($("#identities option").length) + "em");
+        $('select#addressed_to').multiselect({header:false, selectedList: 2, height:"auto"});
+        // Make sure we have one address selected. On select 'null' select the default.
+        $("select#addressed_to").change(function(){
+            if ( $(this).val() == null ) {
+                $(this).val($("option:first", $(this)).text());
+                $(this).multiselect("refresh");
+            }
+        });
     });
 
     // Datepicker for the vacation dates
     $(function() {
         var dates = $('#vacation_start, #vacation_end').datepicker({
-            defaultDate: "+1w",
+            defaultDate: 7,
             changeMonth: true,
             numberOfMonths: 1,
             dateFormat: rcmail.env.date_format,
@@ -42,8 +49,7 @@ if (window.rcmail)
                 var option = this.id == "vacation_start" ? "minDate" : "maxDate",
                     instance = $( this ).data( "datepicker" ),
                     date = $.datepicker.parseDate(
-                        instance.settings.dateFormat ||
-                        $.datepicker._defaults.dateFormat,
+                        instance.settings.dateFormat,
                         selectedDate, instance.settings );
                 dates.not( this ).datepicker( "option", option, date );
             }

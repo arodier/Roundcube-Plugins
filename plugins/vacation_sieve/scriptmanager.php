@@ -42,9 +42,12 @@ class ScriptManager
             # Build conditions
             $startDate = preg_replace('#(\d\d)/(\d\d)/(\d\d\d\d)#','$3-$2-$1',$params['start']);
             $endDate = preg_replace('#(\d\d)/(\d\d)/(\d\d\d\d)#','$3-$2-$1',$params['end']);
-            $execBlock .= sprintf('if allof (currentdate :zone "+0100" :value "gt" "date" "%s", currentdate :zone "+0100" :value "lt" "date" "%s")'."\n",
+            $execBlock .= sprintf('if allof (allof (currentdate :value "gt" "date" "%s", currentdate :value "gt" "hour" "%02d"),'.
+                                           ' allof (currentdate :value "lt" "date" "%s", currentdate :value "lt" "hour" "%02d"))'."\n",
                 $startDate,
-                $endDate);
+                $params['starttime'],
+                $endDate,
+                $params['endtime']);
 
             # Start to build the script
             $execBlock .= "{\n    vacation\n";

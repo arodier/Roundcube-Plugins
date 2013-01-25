@@ -15,12 +15,16 @@ class model
 	public $email = '';
 	public $email_local = '';
 	public $email_domain =  '';
+	public $addressed_to =  null;
+	public $send_from =  null;
 	public $vacation_enable = false;
 	public $vacation_start = 0;
+	public $vacation_starttime = 12;
 	public $vacation_end = 0;
+	public $vacation_endtime = 12;
 	public $append_subject = true;
 	public $vacation_subject = 'Out of office';
-	public $vacation_message = 'I am in Hollidays...';
+	public $vacation_message = 'I am in Holidays...';
 	public $every = 1;
 
 	/**
@@ -88,6 +92,26 @@ class model
     }
 
 	/*
+	 * Gets the destination email address(es)
+	 *
+	 * @return string the 'from' email.
+	 */			
+	public function get_addressed_to()
+	{	    
+	    return $this->addressed_to;
+    }
+
+	/*
+	 * Gets the sending email address..
+	 *
+	 * @return string the 'from' email.
+	 */			
+	public function get_send_from()
+	{	    
+	    return $this->send_from;
+    }
+
+	/*
 	 * Checks if the vacation is enabled.
 	 *
 	 * @return boolean TRUE if vacation is enabled; FALSE otherwise.
@@ -111,6 +135,16 @@ class model
 	}
 
 	/*
+	 * Gets the vacation start time.
+	 *
+	 * @returng int Time in 24h format.
+	 */
+	public function get_vacation_starttime()
+	{
+		return $this->vacation_starttime;
+	}
+
+	/*
 	 * Gets the vacation end date.
 	 *
 	 * @returng int the timestamp of the end date.
@@ -121,6 +155,16 @@ class model
             $this->vacation_end = 86400 + time();
 
 		return $this->vacation_end;
+	}
+
+	/*
+	 * Gets the vacation end time.
+	 *
+	 * @returng int Time in 24h format.
+	 */
+	public function get_vacation_endtime()
+	{
+		return $this->vacation_endtime;
 	}
 	
 	/*
@@ -204,6 +248,26 @@ class model
 	}
 	
 	/*
+	 * Sets the destination email address(es)
+	 *
+	 * @param string the 'from' email.
+	 */			
+	public function set_addressed_to($email)
+	{	    
+	    $this->addressed_to = $email;
+    }
+
+	/*
+	 * Sets the sending email address..
+	 *
+	 * @param string the 'from' email.
+	 */			
+	public function set_send_from($email)
+	{	    
+	    $this->send_from = $email;
+    }
+
+	/*
 	 * Enables or disables the vacation.
 	 *
 	 * @param boolean the flag.
@@ -224,6 +288,16 @@ class model
 	}
 
 	/*
+	 * Sets the vacation start time.
+	 *
+	 * @param int The time in 24h format.
+	 */
+	public function set_vacation_starttime ($time)
+	{
+		$this->vacation_starttime = $time;
+	}
+
+	/*
 	 * Sets the vacation end date.
 	 *
 	 * @param int the timestamp of the vacation end date.
@@ -233,6 +307,16 @@ class model
 		$this->vacation_end = $date;
 	}
 	
+	/*
+	 * Sets the vacation end time.
+	 *
+	 * @param int The time in 24h format.
+	 */
+	public function set_vacation_endtime ($time)
+	{
+		$this->vacation_endtime = $time;
+	}
+
 	/*
 	 * Sets the vacation subject.
 	 *
