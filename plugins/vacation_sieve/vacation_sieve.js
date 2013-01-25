@@ -28,7 +28,14 @@ if (window.rcmail)
 
     // Adjust the eight of the identities list
     $(function () {
-        $("select#identities").css("height", 1.25 * parseInt($("#identities option").length) + "em");
+        $('select#addressed_to').multiselect({header:false, selectedList: 2, height:"auto"});
+        // Make sure we have one address selected. On select 'null' select the default.
+        $("select#addressed_to").change(function(){
+            if ( $(this).val() == null ) {
+                $(this).val($("option:first", $(this)).text());
+                $(this).multiselect("refresh");
+            }
+        });
     });
 
     // Datepicker for the vacation dates

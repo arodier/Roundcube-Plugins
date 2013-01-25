@@ -37,7 +37,14 @@ class vacation_sieve extends rcube_plugin
             $this->register_action('plugin.vacation_sieve', array($this, 'vacation_sieve_init'));
             $this->register_action('plugin.vacation_sieve-save', array($this, 'vacation_sieve_save'));
             $this->include_script('vacation_sieve.js');
+            // Load the jQuery UI multiselect widget and i18n
+            $this->include_script('js/jquery-ui-multiselect-widget/jquery.multiselect.min.js');
+            $lang_s = substr($_SESSION['language'], 0, 2);
+            if (file_exists($this->home . "/js/jquery-ui-multiselect-widget/i18n/jquery.multiselect.$lang_s.js")) {
+                $this->include_script("js/jquery-ui-multiselect-widget/i18n/jquery.multiselect.$lang_s.js");
+            }
             $this->include_stylesheet('styles.css');
+            $this->include_stylesheet('js/jquery-ui-multiselect-widget/jquery.multiselect.css');
 
             # Load default config, and merge with users' settings
             $this->load_config('config-default.inc.php');
