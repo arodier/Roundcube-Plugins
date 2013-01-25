@@ -132,8 +132,8 @@ class vacation_sieve extends rcube_plugin
             if(isset($params['subject'])){ $this->obj->set_vacation_subject($params['subject']); }
             if(isset($params['appendSubject'])){ $this->obj->set_append_subject($params['appendSubject']); }
 
-            #$this->obj->set_addressed_to($params['addresses']);
-            #$this->obj->set_send_from($params['sendFrom']);
+            if(isset($params['addresses'])){ $this->obj->set_addressed_to($params['addresses']); }
+            if(isset($params['sendFrom'])){ $this->obj->set_send_from($params['sendFrom']); }
             if(isset($params['message'])){ $this->obj->set_vacation_message($params['message']); }
         }
 
@@ -214,8 +214,8 @@ class vacation_sieve extends rcube_plugin
         $this->obj->set_vacation_subject($params['subject']);
         $this->obj->set_append_subject($params['appendSubject']);
 
-        #$this->obj->set_addressed_to($params['addresses']);
-        #$this->obj->set_send_from($params['sendFrom']);
+        $this->obj->set_addressed_to($params['addresses']);
+        $this->obj->set_send_from($params['sendFrom']);
         $this->obj->set_vacation_message($params['message']);
 
         # load the transfer class 
@@ -287,11 +287,13 @@ class vacation_sieve extends rcube_plugin
             
             $table->add_row();
             $identities = $this->get_identities();
+            $default_identity = key($identities);
             $field_id = 'addressed_to';
-            $input_addressed_to = new html_select(array('name' => '_addressed_to[]'));
+            $input_addressed_to = new html_select(array('name' => '_addressed_to[]', 'id' => $field_id, 'multiple'=>true));
             $input_addressed_to->add($identities);
+            $addressedTo = $this->obj->get_addressed_to();
             $table->add('title', html::label($field_id, Q($this->gettext('addressed_to'))));
-            $table->add(null, $input_addressed_to->show());
+            $table->add(null, $input_addressed_to->show($addressedTo ? $addressedTo : $default_identity));
 
             # Subject field
             $table->add(array('colspan' => 2, 'class' => 'section'),Q($this->gettext('subject')));
@@ -311,10 +313,11 @@ class vacation_sieve extends rcube_plugin
             $table->add(array('colspan' => 2, 'class' => 'section'),Q($this->gettext('vacationmessage')));
             $table->add_row();
             $field_id = 'send_from';
-            $input_sendfrom = new html_select(array('name' => '_send_from'));
+            $input_sendfrom = new html_select(array('name' => '_send_from', 'id' => $field_id));
             $input_sendfrom->add($identities);
+            $sendFrom = $this->obj->get_send_from();
             $table->add('title', html::label($field_id, Q($this->gettext('send_from'))));
-            $table->add(null, $input_sendfrom->show());
+            $table->add(null, $input_sendfrom->show($sendFrom ? $sendFrom : $default_identity));
 
             # Add the HTML Row
             $table->add_row();
