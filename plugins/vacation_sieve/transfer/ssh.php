@@ -7,13 +7,18 @@ class SSHTransfer extends SieveTransfer
 {
     public function LoadScript($path)
     {
-        return file_get_contents($path);
+        $script = '';
+
+        if ( file_exists($path) )
+             $script = file_get_contents($path);
+
+        return $script;
     }
 
     public function SaveScript($path,$script)
     {
         $tmpFile = tempnam("/tmp", "sieve");
-        file_put_contents($tmpFile,$script);
+        file_put_contents($tmpFile, $script);
 
         $user = $this->params['user'];
         $host = $this->params['host'];
@@ -22,17 +27,26 @@ class SSHTransfer extends SieveTransfer
         if ( !$user ) $user = 'vmail';
         if ( !$host ) $host = 'localhost';
 
-        # Copy the file
-        $command = sprintf("scp '%s' %s@%s:%s", $tmpFile, $user, $host, $path);
-        system($command);
+        # anonymous functions can be used to transform logon names
+        if ( isset($this->params['logon_transform']) )
+            $logon = $this->params['logon_transform']($logon);
 
-        # Compile the file
-        $command = sprintf("ssh %s@%s '%s \"%s\"'", $user, $host, $sievecbin, $path);
-        system($command);
+        # Copy the file
+        $status = 0;
+        $command = sprintf("scp '%s' %s@%s:%s", $tmpFile, $user, $host, $path);
+        system($command, $status);
+
+        if ( $status == 0 )
+        {
+            # Compile the file. I don't think this is necessary with Dovecot
+            # as it compiles the files on the fly by default.
+            $command = sprintf("ssh %s@%s '%s \"%s\"'", $user, $host, $sievecbin, $path);
+            system($command, $status);
+        }
 
         # Clean up
         unlink($tmpFile);
 
-        return true;
+        return ($status == 0);
     }
 }

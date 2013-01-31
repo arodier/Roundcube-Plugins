@@ -113,7 +113,8 @@ class vacation_sieve extends rcube_plugin
             $msg = sprintf("Cannot load the script from '%s'", $path);
             $this->log_error($msg);
         }
-        else {
+        else
+        {
             require 'scriptmanager.php';
             $scriptManager = new ScriptManager();
             mb_internal_encoding('UTF-8'); /* */

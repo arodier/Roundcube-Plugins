@@ -13,39 +13,51 @@
 $rcmail_config['vacation_sieve'] = array(
 
     # Message format: text or html
-    # 'html' is not implemented yet.
     'msg_format' => 'text',
 
     # Debug logging: enable for process logging
     'debug' => false,
 
-    # Transfer parameters
+    # Transfer parameters: how to transfer your
+    # sieve script on the server.
     'transfer' => array(
-        # Transfer mode: local, ssh, managesieve, etc...
+        # Transfer mode: local, ssh or managesieve.
+        # local:
+        #   simply copy the file in a local dir, but need permissions.
+        # ssh:
+        #   use ssh to transfer the file on a remote server,
+        #   this is useful with dovecot sieve_before and sieve_after options
+        # managesieve
+        #   use the managesieve protocol to communicate with the mail server.
+        #   need an appropriate mail server, like dovecot/cyrus or afterlogic
 
         # Select mode
         'mode' =>  'local',
         # 'mode' =>  'managesieve',
         # 'mode'   => 'ssh',
 
-        # Used in SSH and Managesieve Mode
-        # 'host'   => 'localhost',
-        # 'port'   => '22', # SSH
-        # 'port'   => '4190', # Managesieve
-        # Only used in SSH Mode
+        # SSH Mode example
         # 'user'   => 'vmail',
-        # Only used in Managesieve Mode
-        # 'usetls' => false,
+        # 'host'   => 'localhost',
+        # 'port'   => '22
 
-        # Only used in Managesieve Mode
+        # Managesieve Mode example
+        # 'ms_activate_script' => true,
         # if true, 'activate' the script via the managesieve protocol
         # if false, only write the script (eg if 'included')
-        # 'ms_activate_script' => true,
+        # 'port'   => '4190',
+        # 'usetls' => false,
+
+        # example of anonymous function used to transform the logon name
+        # php 5.3+ needed to use this feature.
+        #'logon_transform' => function($logon)
+        #{
+        #    return strtolower(preg_replace('#([a-z])[a-z]+\.([a-z])#', '\1\2', $logon));
+        #},
 
         # example of a template path to save/load the local file
         # in the case of managesieve, this is the script name
         'path' => '/var/vmail/<domain>/<logon>/.sieve',
-        # 'path' => 'vacation',
 
         # Path to sievec bin
         'sievecbin' => '/usr/bin/sievec',
