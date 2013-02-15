@@ -27,9 +27,7 @@ class SSHTransfer extends SieveTransfer
         if ( !$user ) $user = 'vmail';
         if ( !$host ) $host = 'localhost';
 
-        # anonymous functions can be used to transform logon names
-        if ( isset($this->params['logon_transform']) )
-            $logon = $this->params['logon_transform']($logon);
+        list($logon,$domain) = explode('@', $_SESSION['username']);
 
         # Copy the file
         $status = 0;

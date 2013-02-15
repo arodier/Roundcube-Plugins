@@ -96,7 +96,16 @@ class vacation_sieve extends rcube_plugin
         $path = $transferParams['path'];
         $userData = ($this->app->user->data);
         $userName = $userData['alias'];
+
         list($logon,$domain) = preg_split('/@/', $userName);
+
+        # callbacks can be used to transform logon names
+        if ( isset($this->config['logon_transform']) ) {
+            $pattern = $this->config['logon_transform'][0];
+            $replace = $this->config['logon_transform'][1];
+            $logon = preg_replace($pattern, $replace, $logon);
+        }
+
         $path = str_replace('<domain>', $domain, $path);
         $path = str_replace('<logon>', $logon, $path);
         $transferParams['path'] = $path;
@@ -203,6 +212,14 @@ class vacation_sieve extends rcube_plugin
         $userData = ($this->app->user->data);
         $userName = $userData['alias'];
         list($logon,$domain) = preg_split('/@/', $userName);
+
+        # callbacks can be used to transform logon names
+        if ( isset($this->config['logon_transform']) ) {
+            $pattern = $this->config['logon_transform'][0];
+            $replace = $this->config['logon_transform'][1];
+            $logon = preg_replace($pattern, $replace, $logon);
+        }
+
         $path = str_replace('<domain>', $domain, $path);
         $path = str_replace('<logon>', $logon, $path);
         $transferParams['path'] = $path;
