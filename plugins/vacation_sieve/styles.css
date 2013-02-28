@@ -19,3 +19,9 @@ td.top
 {
     vertical-align:top;
 }
+
+select[name="_vacation_starttime"],
+select[name="_vacation_endtime"]
+{
+    display:none;
+}
