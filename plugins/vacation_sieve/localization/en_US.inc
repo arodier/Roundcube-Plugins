@@ -17,6 +17,7 @@ $labels['vacationfrom'] = 'From';
 $labels['vacationto'] = 'To';
 $labels['answer_no_more_than_every'] = 'Answer no more than every';
 $labels['vacationdays'] = 'days';
+$labels['wholeday'] = 'Whole day';
 
 $messages = array();
 $messages['vacationinvalidstartdate'] = 'Please select a valid start date.';

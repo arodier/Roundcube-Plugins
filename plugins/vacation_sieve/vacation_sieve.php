@@ -283,6 +283,9 @@ class vacation_sieve extends rcube_plugin
 
             $hour_text = array();
             $hour_value = array();
+            $wholeDay = Q($this->gettext('wholeday'));
+            $hour_value[$wholeDay] = '';
+            $hour_text[$wholeDay] = $wholeDay;
             foreach(range(0,23) as $tmp_hour){
                 $hour_text[$tmp_hour] = sprintf("%02d:00", $tmp_hour);
                 $hour_value[$tmp_hour] = $tmp_hour;

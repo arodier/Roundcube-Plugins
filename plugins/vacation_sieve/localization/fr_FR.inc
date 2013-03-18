@@ -8,6 +8,7 @@ $labels['vacationmessage'] = 'Message ';
 $labels['vacationforwarder'] = 'Adresse de redirection ';
 $labels['vacationstart'] = 'Début ';
 $labels['vacationend'] = 'Fin ';
+$labels['wholeday'] = 'Journée entière';
 
 $messages = array();
 $messages['vacationinvalidstartdate'] = 'Veuillez saisir une date de début valide.';
