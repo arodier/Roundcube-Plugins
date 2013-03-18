@@ -171,10 +171,12 @@ class vacation_sieve extends rcube_plugin
             $this->app->output->set_pagetitle($this->gettext('vacation'));
             rcmail_overwrite_action('plugin.vacation_sieve');
             $this->app->output->send('plugin');
+			$this->api->output->command('display_message', $this->gettext('filtersaved'), 'confirmation');
         }
         catch ( Exception $exc)
         {
             $this->log_error('Fail to save: '.$exc->getMessage());
+			$this->api->output->command('display_message', $this->gettext('filtersaveerror'), 'error');
         }
     }
 
@@ -286,7 +288,11 @@ class vacation_sieve extends rcube_plugin
             $wholeDay = Q($this->gettext('wholeday'));
             $hour_value[$wholeDay] = '';
             $hour_text[$wholeDay] = $wholeDay;
-            foreach(range(0,23) as $tmp_hour){
+
+            $minHour = $this->config['working_hours'][0];
+            $maxHour = $this->config['working_hours'][1];
+
+            foreach(range($minHour,$maxHour) as $tmp_hour){
                 $hour_text[$tmp_hour] = sprintf("%02d:00", $tmp_hour);
                 $hour_value[$tmp_hour] = $tmp_hour;
             }
@@ -304,7 +310,12 @@ class vacation_sieve extends rcube_plugin
             $input_vacationend = new html_inputfield(array('name' => '_vacation_end', 'id' => $field_id, 'size' => 10));
             $vacEnd = $this->obj->get_vacation_end();
 
-            $periodFields = $this->gettext('vacationfrom') . ' ' .$input_vacationstart->show(date($format, $vacStart)) . ' ' . $input_vacationstarttime->show($hour_text[$this->obj->get_vacation_starttime()]) . ' ' . $this->gettext('vacationto') . ' ' . $input_vacationend->show(date($format, $vacEnd)) . ' ' . $input_vacationendtime->show($hour_text[$this->obj->get_vacation_endtime()]);
+            $periodFields = $this->gettext('vacationfrom').' '.
+                $input_vacationstart->show(date($format, $vacStart)).' '.
+                $input_vacationstarttime->show($hour_text[$this->obj->get_vacation_starttime()]).' '.
+                $this->gettext('vacationto').' '.
+                $input_vacationend->show(date($format, $vacEnd)).' '.
+                $input_vacationendtime->show($hour_text[$this->obj->get_vacation_endtime()]);
             $table->add(null, $periodFields);
 
             $table->add_row();

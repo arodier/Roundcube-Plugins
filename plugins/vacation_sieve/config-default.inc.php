@@ -15,6 +15,9 @@ $rcmail_config['vacation_sieve'] = array(
     # Message format: text or html
     'msg_format' => 'text',
 
+    # Working Hours when selecting hours
+    'working_hours' => array(8,18),
+
     # Debug logging: enable for process logging
     'debug' => false,
 
