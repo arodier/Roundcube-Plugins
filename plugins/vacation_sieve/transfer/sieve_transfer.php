@@ -6,6 +6,14 @@ abstract class SieveTransfer
     # transfer params
     protected $params;
 
+    # store last error
+    protected $lastError;
+
+    public function LastError()
+    {
+        return $this->lastError;
+    }
+
     public function SetParams($params)
     {
         $this->params = $params;

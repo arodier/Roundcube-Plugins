@@ -44,6 +44,7 @@ class vacation_sieve extends rcube_plugin
                 $this->include_script("js/jquery-ui-multiselect-widget/i18n/jquery.multiselect.$lang_s.js");
             }
             $this->include_stylesheet('styles.css');
+            $this->include_stylesheet('skins/larry/vacation_sieve.css');
             $this->include_stylesheet('js/jquery-ui-multiselect-widget/jquery.multiselect.css');
 
             # Load default config, and merge with users' settings
@@ -95,7 +96,7 @@ class vacation_sieve extends rcube_plugin
         $transferParams = $this->config['transfer'];
         $path = $transferParams['path'];
         $userData = ($this->app->user->data);
-        $userName = $userData['alias'];
+        $userName = $userData['username'];
 
         list($logon,$domain) = preg_split('/@/', $userName);
 
@@ -213,6 +214,9 @@ class vacation_sieve extends rcube_plugin
         $path = $transferParams['path'];
         $userData = ($this->app->user->data);
         $userName = $userData['alias'];
+
+        if ( empty($userName) )
+            $userName = $_SESSION['username'];
         list($logon,$domain) = preg_split('/@/', $userName);
 
         # callbacks can be used to transform logon names
@@ -254,7 +258,8 @@ class vacation_sieve extends rcube_plugin
         
         if ( !$success )
         {
-            $msg = sprintf("Cannot save the script in '%s'", $path);
+            $msg = sprintf("Cannot save the script in '%s' (%d):\n", $path, $success);
+            $msg .= '  Error: ' . $transfer->LastError();
             $this->log_error($msg);
         }
     }
@@ -322,7 +327,9 @@ class vacation_sieve extends rcube_plugin
             $field_id = 'every';
             $input_every = new html_inputfield(array('name' => '_every', 'id' => $field_id, 'size' => 5));
             $table->add('title', html::label($field_id, Q($this->gettext('frequency'))));
-            $table->add(null, $this->gettext('answer_no_more_than_every') . ' ' . $input_every->show($this->obj->get_every()) . ' ' . $this->gettext('vacationdays'));
+            $table->add(null, $this->gettext('answer_no_more_than_every').' '.
+                    $input_every->show($this->obj->get_every()).' '.
+                    $this->gettext('vacationdays'));
             
             $table->add_row();
             $identities = $this->get_identities();
@@ -367,11 +374,16 @@ class vacation_sieve extends rcube_plugin
                 rcube_html_editor('identity');
 
                 $text_vacationmessage =
-                new html_textarea(array('name' => '_vacation_message', 'id' => $field_id, 'spellcheck' => 1, 'rows' => 6, 'cols' => 40, 'class' => 'mce_editor'));
+                new html_textarea(
+                    array('name' => '_vacation_message',
+                    'id' => $field_id, 'spellcheck' => 1,
+                    'rows' => 6, 'cols' => 40, 'class' => 'mce_editor'));
             }
             else
             {
-                $text_vacationmessage = new html_textarea(array('name' => '_vacation_message', 'id' => $field_id, 'spellcheck' => 1, 'rows' => 6, 'cols' => 40));
+                $text_vacationmessage =
+                new html_textarea(array('name' => '_vacation_message',
+                'id' => $field_id, 'spellcheck' => 1, 'rows' => 6, 'cols' => 40));
             }
 
             # 
@@ -387,7 +399,6 @@ class vacation_sieve extends rcube_plugin
             # First line
             $boxTitle = html::div(array('id' => "prefs-title", 'class' => 'boxtitle'), $this->gettext('vacation'));
 
-            //*/
             $out = html::div(
                 array('class' => 'box'),
                 $boxTitle . html::div(array('class' => "boxcontent"), $tableHtml . $submitLine));

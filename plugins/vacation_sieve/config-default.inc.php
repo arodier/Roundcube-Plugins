@@ -62,8 +62,9 @@ $rcmail_config['vacation_sieve'] = array(
         # in the case of managesieve, this is the script name
         'path' => '/var/vmail/<domain>/<logon>/.sieve',
 
-        # Path to sievec bin
-        'sievecbin' => '/usr/bin/sievec',
+        # Path to sievec bin if necessary
+        # 'sievecbin' => '/usr/bin/sievec',
+        'sievecbin' => '',
     )
 );
 
