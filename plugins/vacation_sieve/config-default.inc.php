@@ -21,6 +21,10 @@ $rcmail_config['vacation_sieve'] = array(
     # Debug logging: enable for process logging
     'debug' => false,
 
+    // default vacaion mail data - overwrite data in model.php
+    //'vacation_subject' => 'Out of office',
+    //'vacation_message' => 'I am in Holidays...',
+
     # Transfer parameters: how to transfer your
     # sieve script on the server.
     'transfer' => array(

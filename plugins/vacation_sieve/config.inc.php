@@ -22,6 +22,10 @@ $rcmail_config['vacation_sieve'] = array(
 
     'logon_transform' => array('#([a-z])[a-z]+(\.|\s)([a-z])#i', '$1$3'),
 
+    // default vacaion mail data - overwrite data in model.php
+    //'vacation_subject' => 'Out of office',
+    //'vacation_message' => 'I am in Holidays...',
+
     # Transfer parameters
     'transfer' => array(
         # Transfer mode: local, ssh, sieve, etc...
