@@ -30,6 +30,9 @@ class vacation_sieve extends rcube_plugin
         {
             $this->log_debug('Initialising');
 
+            // use jQuery for popup window
+            $this->require_plugin('jqueryui');
+
             $this->app = rcmail::get_instance();
             $this->add_texts('localization/', true);
 
