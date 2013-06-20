@@ -20,7 +20,7 @@ $rcmail_config['vacation_sieve'] = array(
     # Message format: text or html
     'msg_format' => 'text',
 
-    'logon_transform' => [ '#([a-z])[a-z]+(\.|\s)([a-z])#i', '$1$3'],
+    'logon_transform' => array('#([a-z])[a-z]+(\.|\s)([a-z])#i', '$1$3'),
 
     # Transfer parameters
     'transfer' => array(
