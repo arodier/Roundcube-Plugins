@@ -117,7 +117,7 @@ class vacation_sieve extends rcube_plugin
 
         $script = $transfer->LoadScript($path);
         
-        if ( !$script && $script != "" )
+        if ( !$script || $script === '' )
         {
             $msg = sprintf("Cannot load the script from '%s'", $path);
             $this->log_error($msg);
@@ -181,7 +181,7 @@ class vacation_sieve extends rcube_plugin
     }
 
     /*
-     * Reads plugin data.
+     * Writes plugin data.
      */
     public function write_data()
     {
