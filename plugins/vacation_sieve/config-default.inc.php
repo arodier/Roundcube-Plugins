@@ -7,7 +7,7 @@
  | Copyright (C) 2011 André Rodier <andre.rodier@gmail.com>              |
  | Licensed under the GNU GPL                                            |
  +-----------------------------------------------------------------------+
- Note: Don't edit this file. Copy to config.php and override settins there
+ Note: Don't edit this file. Copy to config.inc.php and override settins there
 */
 
 $rcmail_config['vacation_sieve'] = array(
@@ -48,6 +48,7 @@ $rcmail_config['vacation_sieve'] = array(
         # 'ms_activate_script' => true,
         # if true, 'activate' the script via the managesieve protocol
         # if false, only write the script (eg if 'included')
+        # 'host'   => 'localhost',
         # 'port'   => '4190',
         # 'usetls' => false,
 
