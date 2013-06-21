@@ -25,14 +25,45 @@ class ManagesieveTransfer extends SieveTransfer
 
         // try to connect to managesieve server
         $this->managesieve = new rcube_sieve(
-            $this->app->get_user_name(),
-            $this->app->get_user_password(),
+            method_exists($this->app, get_user_name) ? $this->app->get_user_name() : $_SESSION['username'],
+            method_exists($this->app, get_user_password) ? $this->app->get_user_password() : $this->app->decrypt($_SESSION['password']),
             $this->params['host'],
             $this->params['port'],
             null,
             $this->params['usetls']
         );
 
+        if ($error = $this->managesieve->error()) {
+            $this->ShowError($error);
+        }
+
+        return $error;
+
+    }
+
+    private function ShowError($error)
+    {
+        if ($error) {
+            switch ($error) {
+                case SIEVE_ERROR_CONNECTION:
+                case SIEVE_ERROR_LOGIN:
+                    $this->app->output->show_message('Managesieve: Connection error', 'error');
+                    break;
+                case SIEVE_ERROR_NOT_EXISTS:
+                    $this->app->output->show_message('Managesieve: Script does not exist', 'error');
+                    break;
+                case SIEVE_ERROR_INSTALL:
+                    $this->app->output->show_message('Managesieve: Script failed to install', 'error');
+                    break;
+                case SIEVE_ERROR_ACTIVATE:
+                case SIEVE_ERROR_DEACTIVATE:
+                    $this->app->output->show_message('Managesieve: Activation change failed', 'error');
+                    break;
+                default:
+                    $this->app->output->show_message('Managesieve: Unknown error', 'error');
+                    break;
+            }
+        }
     }
 
     public function LoadScript($script_name)
@@ -40,11 +71,15 @@ class ManagesieveTransfer extends SieveTransfer
         $script = '';
 
         if (!$this->managesieve) {
-            $this->GetManagesieve();
+            if($this->GetManagesieve()) { return 0; }
         }
 
         if ($script_name) {
             $script = $this->managesieve->get_script($script_name);
+            if($error = $this->managesieve->error()) {
+                $this->ShowError($error);
+                return 0;
+            }
         }
 
         return $script;
@@ -57,11 +92,15 @@ class ManagesieveTransfer extends SieveTransfer
         $success_activate = false;
 
         if (!$this->managesieve) {
-            $this->GetManagesieve();
+            if($this->GetManagesieve()) { return 0; }
         }
 
         if ($script_name) {
             $success_save = $this->managesieve->save_script($script_name,$script);
+            if($error = $this->managesieve->error()) {
+                $this->ShowError($error);
+                return 0;
+            }
             if($this->params['enable'] && $this->params['ms_activate_script'])
             {
                 $success_activate = $this->managesieve->activate($script_name);
