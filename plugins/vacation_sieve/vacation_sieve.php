@@ -47,7 +47,11 @@ class vacation_sieve extends rcube_plugin
                 $this->include_script("js/jquery-ui-multiselect-widget/i18n/jquery.multiselect.$lang_s.js");
             }
             $this->include_stylesheet('styles.css');
-            $this->include_stylesheet('skins/larry/vacation_sieve.css');
+
+            $src = $this->app->config->get('skin_path') . '/vacation_sieve.css';
+            if (file_exists($this->home . '/' . $src)) {
+                $this->include_stylesheet($src);
+            }
             $this->include_stylesheet('js/jquery-ui-multiselect-widget/jquery.multiselect.css');
 
             # Load default config, and merge with users' settings
