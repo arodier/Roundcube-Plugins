@@ -42,7 +42,8 @@ $rcmail_config['vacation_sieve'] = array(
         # SSH Mode example
         # 'user'   => 'vmail',
         # 'host'   => 'localhost',
-        # 'port'   => '22
+        # 'options'   => '-i /path/to/alternate/.ssh/id_rsa -o UserKnownHostsFile=/path/to/alternate/.ssh/known_hosts',
+        # 'port'   => '22',
 
         # Managesieve Mode example
         # 'ms_activate_script' => true,

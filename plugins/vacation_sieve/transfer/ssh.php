@@ -13,13 +13,15 @@ class SSHTransfer extends SieveTransfer
 
         $user = $this->params['user'];
         $host = $this->params['host'];
+        $options = $this->params['options'];
 
         if ( !$user ) $user = 'vmail';
         if ( !$host ) $host = 'localhost';
+        if ( !$options ) $options = '';
 
         # Copy the file
         $status = 0;
-        $command = sprintf("/usr/bin/scp -q %s@%s:%s '%s'", $user, $host, $path, $tmpFile);
+        $command = sprintf("/usr/bin/scp -q %s %s@%s:%s '%s'", $options, $user, $host, $path, $tmpFile);
         system($command, $status);
 
         $script = file_get_contents($tmpFile);
@@ -35,13 +37,15 @@ class SSHTransfer extends SieveTransfer
 
         $user = $this->params['user'];
         $host = $this->params['host'];
+        $options = $this->params['options'];
 
         if ( !$user ) $user = 'vmail';
         if ( !$host ) $host = 'localhost';
+        if ( !$options ) $options = '';
 
         # Copy the file
         $status = 0;
-        $command = sprintf("/usr/bin/scp -q '%s' %s@%s:%s", $tmpFile, $user, $host, $path);
+        $command = sprintf("/usr/bin/scp -q %s '%s' %s@%s:%s", $options, $tmpFile, $user, $host, $path);
         system($command, $status);
 
         if ( $status == 0 && !empty($this->params['sievecbin']) )
@@ -49,7 +53,7 @@ class SSHTransfer extends SieveTransfer
             # Compile the file. I don't think this is necessary with Dovecot
             # as it compiles the files on the fly by default.
             $sievecbin = $this->params['sievecbin'];
-            $command = sprintf("/usr/bin/ssh %s@%s '%s \"%s\"'", $user, $host, $sievecbin, $path);
+            $command = sprintf("/usr/bin/ssh %s %s@%s '%s \"%s\"'", $options, $user, $host, $sievecbin, $path);
             system($command, $status);
         }
         else
