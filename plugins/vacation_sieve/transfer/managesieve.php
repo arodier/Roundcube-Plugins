@@ -59,6 +59,9 @@ class ManagesieveTransfer extends SieveTransfer
                 case SIEVE_ERROR_DEACTIVATE:
                     $this->app->output->show_message('Managesieve: Activation change failed', 'error');
                     break;
+                case 255:
+                    $this->app->output->show_message('Managesieve: No sieve scripts found (This can be ignored on first run)', 'info');
+                    break;									
                 default:
                     $this->app->output->show_message('Managesieve: Unknown error', 'error');
                     break;
