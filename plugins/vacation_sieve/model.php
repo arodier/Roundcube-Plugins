@@ -23,7 +23,6 @@ class model
 	public $vacation_end = 0;
 	public $vacation_endtime = 12;
 	public $append_subject = true;
-	public $append_subject = true;
 	public $vacation_subject = 'Out of office'; // overwrite in config.inc.php
 	public $vacation_message = 'I am in Holidays...'; // overwrite in config.inc.php
 	public $every = 1;
