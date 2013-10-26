@@ -28,7 +28,7 @@ if (window.rcmail)
 
     // Adjust the eight of the identities list
     $(function () {
-        $('select#addressed_to').multiselect({header:false, selectedList: 2, height:"auto"});
+        $('select#addressed_to').multiselect({header:false, selectedList: 2, height:"auto", minWidth:"auto"});
         // Make sure we have one address selected. On select 'null' select the default.
         $("select#addressed_to").change(function(){
             if ( $(this).val() == null ) {
