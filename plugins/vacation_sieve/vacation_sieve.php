@@ -186,12 +186,12 @@ class vacation_sieve extends rcube_plugin
             $this->app->output->set_pagetitle($this->gettext('vacation'));
             rcmail_overwrite_action('plugin.vacation_sieve');
             $this->app->output->send('plugin');
-			$this->api->output->command('display_message', $this->gettext('filtersaved'), 'confirmation');
+            $this->api->output->command('display_message', $this->gettext('filtersaved'), 'confirmation');
         }
         catch ( Exception $exc)
         {
             $this->log_error('Fail to save: '.$exc->getMessage());
-			$this->api->output->command('display_message', $this->gettext('filtersaveerror'), 'error');
+            $this->api->output->command('display_message', $this->gettext('filtersaveerror'), 'error');
         }
     }
 
