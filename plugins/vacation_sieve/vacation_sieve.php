@@ -285,7 +285,7 @@ class vacation_sieve extends rcube_plugin
     {
         try
         {
-            $table = new html_table(array('cols' => 2, 'class' => 'propform'));
+            $table = new html_table(array('cols' => 2, 'class' => 'propform vacation'));
 
             $format = $this->app->config->get('date_format');
 

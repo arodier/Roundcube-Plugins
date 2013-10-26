@@ -1,13 +1,13 @@
 
 /* Section headers for the orms */
-td.section-first
+.vacation td.section-first
 {
     font-size:larger;
     font-weight:bold;
     padding-bottom:4pt;
 }
 
-td.section
+.vacation td.section
 {
     font-size:larger;
     font-weight:bold;
@@ -15,7 +15,7 @@ td.section
     padding-bottom:4pt;
 }
 
-td.top
+.vacation td.top
 {
     vertical-align:top;
 }
