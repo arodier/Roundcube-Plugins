@@ -40,7 +40,8 @@
       hide: null,
       autoOpen: false,
       multiple: true,
-      position: {}
+      position: {},
+      appendTo: "body"
     },
 
     _create: function() {
@@ -55,7 +56,7 @@
       // jQuery UI 1.9+, and otherwise fallback to a custom string.
       this._namespaceID = this.eventNamespace || ('multiselect' + multiselectID);
 
-      var button = (this.button = $('<button type="button"><span class="ui-icon ui-icon-triangle-2-n-s"></span></button>'))
+      var button = (this.button = $('<button type="button"><span class="ui-icon ui-icon-triangle-1-s"></span></button>'))
         .addClass('ui-multiselect ui-widget ui-state-default ui-corner-all')
         .addClass(o.classes)
         .attr({ 'title':el.attr('title'), 'aria-haspopup':true, 'tabIndex':el.attr('tabIndex') })
@@ -68,7 +69,7 @@
         menu = (this.menu = $('<div />'))
           .addClass('ui-multiselect-menu ui-widget ui-widget-content ui-corner-all')
           .addClass(o.classes)
-          .appendTo(document.body),
+          .appendTo($(o.appendTo)),
 
         header = (this.header = $('<div />'))
           .addClass('ui-widget-header ui-corner-all ui-multiselect-header ui-helper-clearfix')
@@ -135,8 +136,8 @@
       el.find('option').each(function(i) {
         var $this = $(this);
         var parent = this.parentNode;
-        var title = this.innerHTML;
-        var description = this.title;
+        var description = this.innerHTML;
+        var title = this.title;
         var value = this.value;
         var inputID = 'ui-multiselect-' + (this.id || id + '-option-' + i);
         var isDisabled = this.disabled;
@@ -169,7 +170,7 @@
         html += '<li class="' + liClasses + '">';
 
         // create the label
-        html += '<label for="' + inputID + '" title="' + description + '" class="' + labelClasses.join(' ') + '">';
+        html += '<label for="' + inputID + '" title="' + title + '" class="' + labelClasses.join(' ') + '">';
         html += '<input id="' + inputID + '" name="multiselect_' + id + '" type="' + (o.multiple ? "checkbox" : "radio") + '" value="' + value + '" title="' + title + '"';
 
         // pre-selected?
@@ -185,7 +186,7 @@
         }
 
         // add the title and close everything off
-        html += ' /><span>' + title + '</span></label></li>';
+        html += ' /><span>' + description + '</span></label></li>';
       });
 
       // insert into the DOM
@@ -222,7 +223,7 @@
         if($.isFunction(o.selectedText)) {
           value = o.selectedText.call(this, numChecked, $inputs.length, $checked.get());
         } else if(/\d/.test(o.selectedList) && o.selectedList > 0 && numChecked <= o.selectedList) {
-          value = $checked.map(function() { return $(this).next().html(); }).get().join(', ');
+          value = $checked.map(function() { return $(this).next().text(); }).get().join(', ');
         } else {
           value = o.selectedText.replace('#', numChecked).replace('#', $inputs.length);
         }
@@ -399,8 +400,15 @@
       });
 
       // close each widget when clicking on any other element/anywhere else on the page
-      $doc.bind('mousedown.' + this._namespaceID, function(e) {
-        if(self._isOpen && !$.contains(self.menu[0], e.target) && !$.contains(self.button[0], e.target) && e.target !== self.button[0]) {
+      $doc.bind('mousedown.' + this._namespaceID, function(event) {
+        var target = event.target;
+
+        if(self._isOpen
+            && target !== self.button[0]
+            && target !== self.menu[0]
+            && !$.contains(self.menu[0], target)
+            && !$.contains(self.button[0], target)
+          ) {
           self.close();
         }
       });
@@ -439,7 +447,7 @@
       var moveToLast = which === 38 || which === 37;
 
       // select the first li that isn't an optgroup label / disabled
-      $next = $start.parent()[moveToLast ? 'prevAll' : 'nextAll']('li:not(.ui-multiselect-disabled, .ui-multiselect-optgroup-label)')[ moveToLast ? 'last' : 'first']();
+      var $next = $start.parent()[moveToLast ? 'prevAll' : 'nextAll']('li:not(.ui-multiselect-disabled, .ui-multiselect-optgroup-label)').first();
 
       // if at the first/last element
       if(!$next.length) {
@@ -571,10 +579,10 @@
       // show the menu, maybe with a speed/effect combo
       $.fn.show.apply(menu, args);
 
-      // select the first option
+      // select the first not disabled option
       // triggering both mouseover and mouseover because 1.4.2+ has a bug where triggering mouseover
       // will actually trigger mouseenter.  the mouseenter trigger is there for when it's eventually fixed
-      this.labels.eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
+      this.labels.filter(':not(.ui-state-disabled)').eq(0).trigger('mouseover').trigger('mouseenter').find('input').trigger('focus');
 
       button.addClass('ui-state-active');
       this._isOpen = true;
@@ -661,7 +669,7 @@
 
       // use the position utility if it exists and options are specifified
       if($.ui.position && !$.isEmptyObject(o.position)) {
-        o.position.of = o.position.of || button;
+        o.position.of = o.position.of || this.button;
 
         this.menu
           .show()
