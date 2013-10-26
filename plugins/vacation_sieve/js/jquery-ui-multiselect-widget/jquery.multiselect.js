@@ -424,7 +424,8 @@
 
     // set button width
     _setButtonWidth: function() {
-      var width = this.element.outerWidth();
+      // account for the ui-icon
+      var width = this.element.outerWidth() + this.button.children('span').outerWidth() + 2;
       var o = this.options;
 
       if(/\d/.test(o.minWidth) && width < o.minWidth) {
