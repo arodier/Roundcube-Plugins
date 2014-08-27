@@ -15,7 +15,7 @@ $labels['append_subject'] = 'Betreff hinzufügen';
 $labels['send_from'] = 'Versenden von';
 $labels['vacationfrom'] = 'von';
 $labels['vacationto'] = 'bis';
-$labels['answer_no_more_than_every'] = 'antworten nicht öffter als jeden';
+$labels['answer_no_more_than_every'] = 'antworten nicht öfter als jeden';
 $labels['vacationdays'] = 'Tag';
 $labels['wholeday'] = 'ganzen Tag';
 
