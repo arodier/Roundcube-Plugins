@@ -30,6 +30,9 @@ class vacation_sieve extends rcube_plugin
         {
             $this->log_debug('Initialising');
 
+            // use jQuery for popup window
+            $this->require_plugin('jqueryui');
+
             $this->app = rcmail::get_instance();
             $this->add_texts('localization/', true);
 
@@ -61,6 +64,13 @@ class vacation_sieve extends rcube_plugin
             require $this->home . '/model.php';
             
             $this->obj = new model();
+            if (!empty($this->config['vacation_subject'])) {
+                $this->obj->vacation_subject = $this->config['vacation_subject'];
+            }
+            if (!empty($this->config['vacation_message'])) {
+                $this->obj->vacation_message = $this->config['vacation_message'];
+            }
+
 
             $this->log_debug('Initialised');
         }
