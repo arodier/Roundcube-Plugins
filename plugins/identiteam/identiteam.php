@@ -43,6 +43,11 @@ class identiteam extends rcube_plugin
             $this->mail = $this->config['mail'];
 
             $this->server = $this->ldap['server'];
+            $this->referr = $this->ldap['referrals'];
+            $this->b_user = $this->ldap['bind_user'];
+            $this->b_pass = $this->ldap['bind_pass'];
+
+
             $this->filter = $this->ldap['filter'];
             $this->domain = $this->ldap['domain'];
 
@@ -55,8 +60,9 @@ class identiteam extends rcube_plugin
             if ( is_resource($this->conn) )
             {
                 ldap_set_option($this->conn, LDAP_OPT_PROTOCOL_VERSION, 3);
+                ldap_set_option($this->conn, LDAP_OPT_REFERRALS, $this->referr);
 
-                $bound = ldap_bind($this->conn);
+                $bound = ldap_bind($this->conn, $this->b_user, $this->b_pass);
 
                 if ( $bound )
                 {

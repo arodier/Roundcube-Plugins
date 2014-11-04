@@ -20,6 +20,10 @@ array(
     // LDAP parameters
     'ldap' => array(
         'server' => 'ldap.snakeoil.com',                    // Your LDAP server address
+        'bind_user' => 'ldap_query@snakeoil.com',           // Your LDAP bind user for queries
+        'bind_pass' => 'sercret',                           // Your LDAP bind password
+        'referrals' => 0,                                   // Specifies whether to automatically follow referrals returned by the LDAP server.
+
         'filter_remove_domain' => true,                     // if set to true, the domain name (eg. xxxx@example.com) is removed before the lookup
         'filter' => '(uid=%s)' ,                            // The LDAP filter to use. This is compared with the user' login. use 'mail' if the domain is
                                                             // specified in the login process.
