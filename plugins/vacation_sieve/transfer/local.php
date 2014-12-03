@@ -24,7 +24,7 @@ class LocalTransfer extends SieveTransfer
 
         # Create the folder if not exists
         if ( !is_dir($folder) )
-            $try = @mkdir($folder,true);
+            $try = @mkdir($folder,0755,true);
 
         if ( !$try )
         {
