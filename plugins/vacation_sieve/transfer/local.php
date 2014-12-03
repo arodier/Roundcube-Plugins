@@ -43,8 +43,16 @@ class LocalTransfer extends SieveTransfer
         }
 
         # Compile the script
-        if ( $success )
-            $success = (system("$this->params['sievecbin'] $path") == 0);
+        if ( $success && $this->params['sievecbin'] != '' )
+        {
+            $output = system($this->params['sievecbin'] . " $path 2>&1", $rc);
+            $success = ($rc == 0);
+            if ( !$success )
+            {
+               $msg = sprintf('Cannot execute "%s" to compile the script: %s', $this->params['sievecbin'], $output);
+               throw new Exception($msg);
+            }
+        }
 
         return $success;
     }
