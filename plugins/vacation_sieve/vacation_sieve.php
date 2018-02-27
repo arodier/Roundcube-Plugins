@@ -203,22 +203,22 @@ class vacation_sieve extends rcube_plugin
     {
         $this->log_debug('Write data');
         $params = array();
-        $tmp = rcube_utils::get_input_value('_vacation_enable', RCUBE_INPUT_POST);
+        $tmp = rcube_utils::get_input_value('_vacation_enable', rcube_utils::INPUT_POST);
         $params['enable'] = isset($tmp) ? true : false;
-        $params['start'] = rcube_utils::get_input_value('_vacation_start', RCUBE_INPUT_POST);
-        $params['starttime'] = rcube_utils::get_input_value('_vacation_starttime', RCUBE_INPUT_POST);
-        $params['end'] = rcube_utils::get_input_value('_vacation_end', RCUBE_INPUT_POST);
-        $params['endtime'] = rcube_utils::get_input_value('_vacation_endtime', RCUBE_INPUT_POST);
-        $params['every'] = intval(rcube_utils::get_input_value('_every', RCUBE_INPUT_POST));
+        $params['start'] = rcube_utils::get_input_value('_vacation_start', rcube_utils::INPUT_POST);
+        $params['starttime'] = rcube_utils::get_input_value('_vacation_starttime', rcube_utils::INPUT_POST);
+        $params['end'] = rcube_utils::get_input_value('_vacation_end', rcube_utils::INPUT_POST);
+        $params['endtime'] = rcube_utils::get_input_value('_vacation_endtime', rcube_utils::INPUT_POST);
+        $params['every'] = intval(rcube_utils::get_input_value('_every', rcube_utils::INPUT_POST));
 
-        $params['subject'] = rcube_utils::get_input_value('_vacation_subject', RCUBE_INPUT_POST);
-        $tmp = rcube_utils::get_input_value('_append_subject', RCUBE_INPUT_POST);
+        $params['subject'] = rcube_utils::get_input_value('_vacation_subject', rcube_utils::INPUT_POST);
+        $tmp = rcube_utils::get_input_value('_append_subject', rcube_utils::INPUT_POST);
         $params['appendSubject'] = isset($tmp) ? true : false;
         unset($tmp);
 
-        $params['addresses'] = rcube_utils::get_input_value('_addressed_to', RCUBE_INPUT_POST, true);
-        $params['sendFrom'] = rcube_utils::get_input_value('_send_from', RCUBE_INPUT_POST, true);
-        $params['message'] = rcube_utils::get_input_value('_vacation_message', RCUBE_INPUT_POST, true);
+        $params['addresses'] = rcube_utils::get_input_value('_addressed_to', rcube_utils::INPUT_POST, true);
+        $params['sendFrom'] = rcube_utils::get_input_value('_send_from', rcube_utils::INPUT_POST, true);
+        $params['message'] = rcube_utils::get_input_value('_vacation_message', rcube_utils::INPUT_POST, true);
 
         require 'scriptmanager.php';
         $scriptManager = new ScriptManager();
