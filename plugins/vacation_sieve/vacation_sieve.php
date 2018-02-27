@@ -54,7 +54,7 @@ class vacation_sieve extends rcube_plugin
             }
             $this->include_stylesheet('js/jquery-ui-multiselect-widget/jquery.multiselect.css');
 
-            # Load default config, and merge with users' settings
+            # Load default config, and merge with users settings
             $this->load_config('config-default.inc.php');
             $this->load_config('config.inc.php');
 
@@ -62,7 +62,7 @@ class vacation_sieve extends rcube_plugin
 
 
             require $this->home . '/model.php';
-            
+
             $this->obj = new model();
             if (!empty($this->config['vacation_subject'])) {
                 $this->obj->vacation_subject = $this->config['vacation_subject'];
@@ -184,7 +184,8 @@ class vacation_sieve extends rcube_plugin
 
             $this->register_handler('plugin.body', array($this, 'vacation_sieve_form'));
             $this->app->output->set_pagetitle($this->gettext('vacation'));
-            rcmail_overwrite_action('plugin.vacation_sieve');
+            //rcmail_overwrite_action('plugin.vacation_sieve');
+	    rcmail::get_instance()->overwrite_action('plugin.vacation_sieve');
             $this->app->output->send('plugin');
 			$this->api->output->command('display_message', $this->gettext('filtersaved'), 'confirmation');
         }
@@ -202,22 +203,22 @@ class vacation_sieve extends rcube_plugin
     {
         $this->log_debug('Write data');
         $params = array();
-        $tmp = get_input_value('_vacation_enable', RCUBE_INPUT_POST);
+        $tmp = rcube_utils::get_input_value('_vacation_enable', rcube_utils::INPUT_POST);
         $params['enable'] = isset($tmp) ? true : false;
-        $params['start'] = get_input_value('_vacation_start', RCUBE_INPUT_POST);
-        $params['starttime'] = get_input_value('_vacation_starttime', RCUBE_INPUT_POST);
-        $params['end'] = get_input_value('_vacation_end', RCUBE_INPUT_POST);
-        $params['endtime'] = get_input_value('_vacation_endtime', RCUBE_INPUT_POST);
-        $params['every'] = intval(get_input_value('_every', RCUBE_INPUT_POST));
+        $params['start'] = rcube_utils::get_input_value('_vacation_start', rcube_utils::INPUT_POST);
+        $params['starttime'] = rcube_utils::get_input_value('_vacation_starttime', rcube_utils::INPUT_POST);
+        $params['end'] = rcube_utils::get_input_value('_vacation_end', rcube_utils::INPUT_POST);
+        $params['endtime'] = rcube_utils::get_input_value('_vacation_endtime', rcube_utils::INPUT_POST);
+        $params['every'] = intval(rcube_utils::get_input_value('_every', rcube_utils::INPUT_POST));
 
-        $params['subject'] = get_input_value('_vacation_subject', RCUBE_INPUT_POST);
-        $tmp = get_input_value('_append_subject', RCUBE_INPUT_POST);
+        $params['subject'] = rcube_utils::get_input_value('_vacation_subject', rcube_utils::INPUT_POST);
+        $tmp = rcube_utils::get_input_value('_append_subject', rcube_utils::INPUT_POST);
         $params['appendSubject'] = isset($tmp) ? true : false;
         unset($tmp);
 
-        $params['addresses'] = get_input_value('_addressed_to', RCUBE_INPUT_POST, true);
-        $params['sendFrom'] = get_input_value('_send_from', RCUBE_INPUT_POST, true);
-        $params['message'] = get_input_value('_vacation_message', RCUBE_INPUT_POST, true);
+        $params['addresses'] = rcube_utils::get_input_value('_addressed_to', rcube_utils::INPUT_POST, true);
+        $params['sendFrom'] = rcube_utils::get_input_value('_send_from', rcube_utils::INPUT_POST, true);
+        $params['message'] = rcube_utils::get_input_value('_vacation_message', rcube_utils::INPUT_POST, true);
 
         require 'scriptmanager.php';
         $scriptManager = new ScriptManager();
@@ -290,21 +291,21 @@ class vacation_sieve extends rcube_plugin
             $format = $this->app->config->get('date_format');
 
             # Options
-            $table->add(array('colspan' => 2, 'class' => 'section-first'),Q($this->gettext('options')));
+            $table->add(array('colspan' => 2, 'class' => 'section-first'),rcube::Q($this->gettext('options')));
             $table->add_row();
             $field_id = 'vacation_enable';
             $input_vacationenable = new html_checkbox(array('name' => '_vacation_enable', 'id' => $field_id, 'value' => 1));
-            $table->add('title', html::label($field_id, Q($this->gettext('vacationenable'))));
+            $table->add('title', html::label($field_id, rcube::Q($this->gettext('vacationenable'))));
             $table->add(null, $input_vacationenable->show($this->obj->is_vacation_enable() ? 1 : 0));
 
             $field_id = 'vacation_start';
             $input_vacationstart = new html_inputfield(array('name' => '_vacation_start', 'id' => $field_id, 'size' => 10));
-            $table->add('title', html::label($field_id, Q($this->gettext('period'))));
+            $table->add('title', html::label($field_id, rcube::Q($this->gettext('period'))));
             $vacStart = $this->obj->get_vacation_start();
 
             $hour_text = array();
             $hour_value = array();
-            $wholeDay = Q($this->gettext('wholeday'));
+            $wholeDay = rcube::Q($this->gettext('wholeday'));
             $hour_value[$wholeDay] = '';
             $hour_text[$wholeDay] = $wholeDay;
 
@@ -340,7 +341,7 @@ class vacation_sieve extends rcube_plugin
             $table->add_row();
             $field_id = 'every';
             $input_every = new html_inputfield(array('name' => '_every', 'id' => $field_id, 'size' => 5));
-            $table->add('title', html::label($field_id, Q($this->gettext('frequency'))));
+            $table->add('title', html::label($field_id, rcube::Q($this->gettext('frequency'))));
             $table->add(null, $this->gettext('answer_no_more_than_every').' '.
                     $input_every->show($this->obj->get_every()).' '.
                     $this->gettext('vacationdays'));
@@ -352,31 +353,31 @@ class vacation_sieve extends rcube_plugin
             $input_addressed_to = new html_select(array('name' => '_addressed_to[]', 'id' => $field_id, 'multiple'=>true));
             $input_addressed_to->add($identities);
             $addressedTo = $this->obj->get_addressed_to();
-            $table->add('title', html::label($field_id, Q($this->gettext('addressed_to'))));
+            $table->add('title', html::label($field_id, rcube::Q($this->gettext('addressed_to'))));
             $table->add(null, $input_addressed_to->show($addressedTo ? $addressedTo : $default_identity));
 
             # Subject field
-            $table->add(array('colspan' => 2, 'class' => 'section'),Q($this->gettext('subject')));
+            $table->add(array('colspan' => 2, 'class' => 'section'),rcube::Q($this->gettext('subject')));
             $table->add_row();
             $field_id = 'vacation_subject';
             $input_vacationsubject = new html_inputfield(array('name' => '_vacation_subject', 'id' => $field_id, 'size' => 40));
-            $table->add('title', html::label($field_id, Q($this->gettext('vacationsubject'))));
+            $table->add('title', html::label($field_id, rcube::Q($this->gettext('vacationsubject'))));
             $table->add(null, $input_vacationsubject->show($this->obj->get_vacation_subject()));
 
             $table->add_row();
             $field_id = '_append_subject';
             $input_appendsubject = new html_checkbox(array('name' => '_append_subject', 'id' => $field_id, 'value' => 1));
-            $table->add('title', html::label($field_id, Q($this->gettext('append_subject'))));
+            $table->add('title', html::label($field_id, rcube::Q($this->gettext('append_subject'))));
             $table->add(null, $input_appendsubject->show($this->obj->get_append_subject() ? 1 : 0));
 
             # Message
-            $table->add(array('colspan' => 2, 'class' => 'section'),Q($this->gettext('vacationmessage')));
+            $table->add(array('colspan' => 2, 'class' => 'section'),rcube::Q($this->gettext('vacationmessage')));
             $table->add_row();
             $field_id = 'send_from';
             $input_sendfrom = new html_select(array('name' => '_send_from', 'id' => $field_id));
             $input_sendfrom->add($identities);
             $sendFrom = $this->obj->get_send_from();
-            $table->add('title', html::label($field_id, Q($this->gettext('send_from'))));
+            $table->add('title', html::label($field_id, rcube::Q($this->gettext('send_from'))));
             $table->add(null, $input_sendfrom->show($sendFrom ? $sendFrom : $default_identity));
 
             # Add the HTML Row
@@ -385,8 +386,8 @@ class vacation_sieve extends rcube_plugin
             if ($this->config['msg_format'] == 'html')
             {
                 $this->app->output->add_label('converting', 'editorwarning');
-                rcube_html_editor('identity');
-
+//                rcube_html_editor('identity');
+                rcmail::get_instance()->html_editor('identity');
                 $text_vacationmessage =
                 new html_textarea(
                     array('name' => '_vacation_message',
@@ -401,7 +402,7 @@ class vacation_sieve extends rcube_plugin
             }
 
             # 
-            $table->add('top title', html::label($field_id, Q($this->gettext('vacationmessage'))));
+            $table->add('top title', html::label($field_id, rcube::Q($this->gettext('vacationmessage'))));
             $table->add(null, $text_vacationmessage->show($this->obj->get_vacation_message()));
 
             # Get the HTML
@@ -453,13 +454,13 @@ class vacation_sieve extends rcube_plugin
     {
         if ($this->config['debug'])
         {
-            write_log('vacation_sieve', $msg);
+            rcmail::write_log('vacation_sieve', $msg);
         }
     }
 
     private function log_error($msg)
     {
-        write_log('vacation_sieve', $msg);
+        rcmail::write_log('vacation_sieve', $msg);
     }
 
 }
